@@ -1,0 +1,12 @@
+version: '3.5'
+
+services:
+
+  djvulibre:
+    build:
+      context: ./build/djvulibre
+    container_name: djvulibre
+    env_file:
+      - .env
+    volumes:
+      - ./src:/var/local/src
