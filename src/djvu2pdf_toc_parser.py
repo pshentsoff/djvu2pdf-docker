@@ -76,6 +76,7 @@ def next_quote(str, i):
 
 
 if __name__ == '__main__':
+    verbose = 0
     toc_input = sys.stdin.read()
 
     # It's possible that the file does not have a table of contents,
@@ -85,4 +86,5 @@ if __name__ == '__main__':
         # general pattern expected by `parse_sexp`.
         toc_output = []
         parse_sexp(toc_input[1:], toc_output, '', 0)
-        print('\n'.join(toc_output))
+        if verbose == 1:
+            print('\n'.join(toc_output))

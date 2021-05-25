@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
+#
+# For benchmarking
+#
+
 start_ms=`date +%s%N | cut -b1-13`
-echo -e "Started at ${start_ms}\n"
 
 #
 # Set up paths
@@ -18,7 +21,7 @@ file_out_basename=$(basename "$file_out")
 
 tmpdir=$(mktemp -d)
 cd $tmpdir
-echo -e "Created temporary directory - ${tmpdir}\n"
+#echo -e "Created temporary directory - ${tmpdir}\n"
 
 function cleanup()
 {
@@ -31,14 +34,14 @@ trap "cleanup" EXIT # makes sure we clean up after ourselves
 # Extract raw pages and text
 #
 
-echo -e "Convert source file ${file_in} to multi-page tiff image file.\n"
+#echo -e "Convert source file ${file_in} to multi-page tiff image file.\n"
 ddjvu -format=tiff "$file_in" tmp_multipage.tiff
-echo -e "Split multi-page image file to pages.\n"
+#echo -e "Split multi-page image file to pages.\n"
 tiffsplit tmp_multipage.tiff tmp_page_
-echo -e "Removing source multi-page tiff file.\n"
+#echo -e "Removing source multi-page tiff file.\n"
 rm tmp_multipage.tiff
 num_pages=$(djvused -e 'n' "$file_in")
-echo -e "Pages count: ${num_pages}\n"
+#echo -e "Pages count: ${num_pages}\n"
 strlen_num_pages="${#num_pages}"
 i=0
 for page_alpha in tmp_page_*; do
@@ -54,7 +57,7 @@ for page_alpha in tmp_page_*; do
     # understand the output from `djvu2hocr`.
 
     out_html=tmp_page_${j}.html
-    echo -e "OCR text from page #${i} and save to ${out_html}\n"
+#    echo -e "OCR text from page #${i} and save to ${out_html}\n"
     djvu2hocr "$file_in" -p $i | sed 's/ocrx/ocr/g' > ${out_html}
 done
 
